@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>카카오맵 길찾기</title>
+  <script>
+    function getParam(key) {
+      const params = new URLSearchParams(location.search);
+      return params.get(key);
+    }
+
+    window.onload = function () {
+      const destName = getParam("destName") || "목적지";
+      const destLat = parseFloat(getParam("lat"));
+      const destLon = parseFloat(getParam("lon"));
+
+      if (!destName || isNaN(destLat) || isNaN(destLon)) {
+        document.body.innerHTML = "<h3>❌ 목적지 정보가 올바르지 않습니다.</h3>";
+        return;
+      }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          const startLat = position.coords.latitude;
+          const startLon = position.coords.longitude;
+
+          const kakaoUrl = `https://map.kakao.com/link/by/car/내위치,${startLat},${startLon}/${destName},${destLat},${destLon}`;
+          window.location.href = kakaoUrl;
+        }, function () {
+          document.body.innerHTML = "<h3>📍 GPS 권한이 필요합니다. 설정에서 허용해주세요.</h3>";
+        });
+      } else {
+        document.body.innerHTML = "<h3>⚠️ 이 브라우저는 위치 정보를 지원하지 않습니다.</h3>";
+      }
+    };
+  </script>
+</head>
+<body>
+  <p>🚗 길찾기 정보를 불러오는 중입니다...</p>
+</body>
+</html>
