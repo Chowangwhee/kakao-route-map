@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>목적지 선택</title>
+</head>
+<body>
+  <h2>🚩 목적지를 선택하세요</h2>
+
+  <ul>
+    <li><a href="route.html?destName=카카오판교아지트&lat=37.3952969470752&lon=127.110449292622">카카오 판교 아지트</a></li>
+    <li><a href="route.html?destName=에버랜드&lat=37.294536&lon=127.202642">에버랜드</a></li>
+  </ul>
+
+  <h3>직접 입력</h3>
+  <form onsubmit="goToRoute(event)">
+    <label>이름: <input type="text" id="name" required></label><br>
+    <label>위도: <input type="number" step="any" id="lat" required></label><br>
+    <label>경도: <input type="number" step="any" id="lon" required></label><br>
+    <button type="submit">길찾기 실행</button>
+  </form>
+
+  <script>
+    function goToRoute(event) {
+      event.preventDefault();
+      const name = encodeURIComponent(document.getElementById("name").value);
+      const lat = document.getElementById("lat").value;
+      const lon = document.getElementById("lon").value;
+      const url = `route.html?destName=${name}&lat=${lat}&lon=${lon}`;
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
